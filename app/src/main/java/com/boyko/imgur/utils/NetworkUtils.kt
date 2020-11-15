@@ -23,30 +23,4 @@ object NetworkUtils {
 
         return false
     }
-
-    fun connectionReachable(): Boolean {
-        var socket: Socket? = null
-        var reachable = false
-        try {
-            socket = Socket("google.com", 80)
-            reachable = socket.isConnected
-        } catch (e: UnknownHostException) {
-            aLog.w(TAG, "Error connecting to server")
-            reachable = false
-        } catch (e: IOException) {
-            aLog.w(TAG, "Error connecting to server")
-        } finally {
-            if (socket != null) {
-                try {
-                    socket.close()
-                } catch (e: IOException) {
-                    aLog.w(TAG, "Error closing connecting socket test")
-                }
-
-            }
-        }
-        aLog.w(TAG, "Data connectivity change detected, ping test=" + reachable.toString())
-        return reachable
-    }
-
 }

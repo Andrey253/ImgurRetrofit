@@ -3,10 +3,10 @@ package com.boyko.imgur.services
 import android.content.Context
 import java.lang.ref.WeakReference
 import com.boyko.imgur.Constants
-import com.boyko.imgur.ImageResponse
-import com.boyko.imgur.ImgurAPI
-import com.boyko.imgur.Upload
 import com.boyko.imgur.helpers.NotificationHelper
+import com.boyko.imgur.model.ImageResponse
+import com.boyko.imgur.model.ImgurAPI
+import com.boyko.imgur.model.Upload
 import com.boyko.imgur.utils.NetworkUtils
 import retrofit.Callback
 import retrofit.RestAdapter
@@ -20,13 +20,9 @@ import retrofit.mime.TypedFile
  */
 class UploadService(context: Context) {
 
-    private val mContext: WeakReference<Context>
+    private val mContext: WeakReference<Context> = WeakReference(context)
 
-    init {
-        this.mContext = WeakReference(context)
-    }
-
-    fun Execute(upload: Upload, callback: Callback<ImageResponse>?) {
+    fun execute(upload: Upload, callback: Callback<ImageResponse>?) {
         val cb = callback
 
         if (!NetworkUtils.isConnected(mContext.get()!!)) {
@@ -82,9 +78,5 @@ class UploadService(context: Context) {
         if (Constants.LOGGING)
             imgurAdapter.logLevel = RestAdapter.LogLevel.FULL
         return imgurAdapter
-    }
-
-    companion object {
-        val TAG = UploadService::class.java.simpleName
     }
 }

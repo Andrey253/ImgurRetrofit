@@ -1,4 +1,4 @@
-package com.boyko.imgur
+package com.boyko.imgur.model
 
 /*
  * Response from imgur when uploading to the server.
@@ -21,7 +21,7 @@ class ImageResponse {
         var bandwidth: Int = 0
         var vote: String? = null
         var favorite: Boolean = false
-        var account_url: String? = null
+        var accounturl: String? = null
         var deletehash: String? = null
         var name: String? = null
         var link: String? = null
@@ -40,7 +40,7 @@ class ImageResponse {
                     ", bandwidth=" + bandwidth +
                     ", vote='" + vote + '\''.toString() +
                     ", favorite=" + favorite +
-                    ", account_url='" + account_url + '\''.toString() +
+                    ", account_url='" + accounturl + '\''.toString() +
                     ", deletehash='" + deletehash + '\''.toString() +
                     ", name='" + name + '\''.toString() +
                     ", link='" + link + '\''.toString() +

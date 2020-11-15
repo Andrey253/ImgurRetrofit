@@ -12,6 +12,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.boyko.imgur.helpers.DocumentHelper
 import com.boyko.imgur.helpers.IntentHelper
+import com.boyko.imgur.model.ImageResponse
+import com.boyko.imgur.model.Upload
 import com.boyko.imgur.services.UploadService
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         buildViews()
     }
-    fun buildViews(){
+    private fun buildViews(){
         //val bundle = this.intent.extras
 
         uploadImage = findViewById(R.id.imageView)
@@ -91,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             /*
             Start upload
             */
-            UploadService(this).Execute(upload!!, UiCallback())
+            UploadService(this).execute(upload!!, UiCallback())
         }
     }
     private fun createUpload(image: File) {

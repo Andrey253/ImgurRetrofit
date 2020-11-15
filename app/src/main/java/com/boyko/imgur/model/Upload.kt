@@ -1,4 +1,4 @@
-package com.boyko.imgur
+package com.boyko.imgur.model
 
 import java.io.File
 

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 
 object IntentHelper {
-    val FILE_PICK = 1001
+    const val FILE_PICK = 1001
 
 
     fun chooseFileIntent(activity: Activity) {

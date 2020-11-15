@@ -4,20 +4,15 @@ object Constants {
     /*
       Logging flag
      */
-    val LOGGING = false
+    const val LOGGING = false
 
     /*
       Your imgur client id. You need this to upload to imgur.
 
       More here: https://api.imgur.com/
      */
-    val MY_IMGUR_CLIENT_ID = "0553d510825b4de"
-    val MY_IMGUR_CLIENT_SECRET = ""
+    const val MY_IMGUR_CLIENT_ID = "0553d510825b4de"
 
-    /*
-      Redirect URL for android.
-     */
-    val MY_IMGUR_REDIRECT_URL = "https://www.getpostman.com/oauth2/callback"
 
     /*
       Client Auth

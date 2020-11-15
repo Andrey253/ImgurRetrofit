@@ -1,4 +1,4 @@
-package com.boyko.imgur
+package com.boyko.imgur.model
 
 import retrofit.Callback
 import retrofit.http.Body
@@ -37,6 +37,6 @@ interface ImgurAPI {
     )
 
     companion object {
-        val server = "https://api.imgur.com"
+        const val server = "https://api.imgur.com"
     }
 }

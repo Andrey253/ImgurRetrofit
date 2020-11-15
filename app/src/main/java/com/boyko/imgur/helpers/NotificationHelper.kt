@@ -1,6 +1,5 @@
 package com.boyko.imgur.helpers
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -8,68 +7,50 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import java.lang.ref.WeakReference
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import com.boyko.imgur.ImageResponse
-import com.boyko.imgur.MainActivity
 import com.boyko.imgur.R
-import com.example.calendar.service.ExampleService
+import com.boyko.imgur.model.ImageResponse
 
-/**
- * Created by AKiniyalocts on 1/15/15.
- *
+/*
  *
  * This class is just created to help with notifications, definitely not necessary.
  */
 class NotificationHelper(context: Context) {
 
-    private val mContext: WeakReference<Context>
+    private val mContext: WeakReference<Context> = WeakReference(context)
     private val notificationManager: NotificationManager by lazy { context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
-
-    init {
-        this.mContext = WeakReference(context)
-    }
 
     fun createUploadingNotification() {
         createNotificationChannel()
-        val handler = Handler(Looper.getMainLooper())
-        val activityIntent = Intent(mContext.get(), MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(mContext.get(), ExampleService.REQUEST_CODE, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val notification = NotificationCompat.Builder(mContext.get()!!, ExampleService.DEFAULT_CHANNEL_ID)
+
+        val notification = NotificationCompat.Builder(mContext.get()!!, DEFAULT_CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_menu_upload)
             .setContentTitle(mContext.get()!!.getString(R.string.notification_progress))
             .setColor(mContext.get()!!.getResources().getColor(R.color.primary))
             .setAutoCancel(true)
             .build()
 
-        handler.post {
-            notificationManager.notify(ExampleService.REQUEST_CODE, notification)
-        }
+        val mNotificationManager = mContext.get()!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+        mNotificationManager.notify(mContext.get()!!.getString(R.string.app_name).hashCode(), notification)
     }
 
     fun createUploadedNotification(response: ImageResponse) {
         createNotificationChannel()
-        notificationManager.cancel(ExampleService.REQUEST_CODE)
-        val handler = Handler(Looper.getMainLooper())
 
-        val mBuilder = NotificationCompat.Builder(mContext.get()!!, ExampleService.DEFAULT_CHANNEL_ID)
-        .setSmallIcon(android.R.drawable.ic_menu_gallery)
-        .setContentTitle(mContext.get()!!.getString(R.string.notifaction_success))
-
-        .setContentText(response.data!!.link)
-
-        mBuilder.color = ContextCompat.getColor(mContext.get()!!, R.color.primary)
-
+        notificationManager.cancel(REQUEST_CODE)
 
         val resultIntent = Intent(Intent.ACTION_VIEW, Uri.parse(response.data!!.link))
         val intent = PendingIntent.getActivity(mContext.get(), 0, resultIntent, 0)
-        mBuilder.setContentIntent(intent)
-        mBuilder.setAutoCancel(true)
+        val mBuilder = NotificationCompat.Builder(mContext.get()!!, DEFAULT_CHANNEL_ID)
+        .setSmallIcon(android.R.drawable.ic_menu_gallery)
+        .setContentTitle(mContext.get()!!.getString(R.string.notifaction_success))
+        .setContentText(response.data!!.link)
+        .setContentIntent(intent)
+        .setAutoCancel(true)
+        mBuilder.color = ContextCompat.getColor(mContext.get()!!, R.color.primary)
 
         val shareIntent = Intent(Intent.ACTION_SEND, Uri.parse(response.data!!.link))
         shareIntent.type = "text/plain"
@@ -101,8 +82,8 @@ class NotificationHelper(context: Context) {
     }
 
     companion object {
-        val TAG = NotificationHelper::class.java.simpleName
         const val DEFAULT_CHANNEL_ID = "0"
+        const val REQUEST_CODE = 111
     }
 
     private fun createNotificationChannel() {
@@ -110,7 +91,7 @@ class NotificationHelper(context: Context) {
             val name = "channel"
             val descriptionText = "default channel"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(ExampleService.DEFAULT_CHANNEL_ID, name, importance).apply {
+            val channel = NotificationChannel(DEFAULT_CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
             val notificationManager: NotificationManager =
